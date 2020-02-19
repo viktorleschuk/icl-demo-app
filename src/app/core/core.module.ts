@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {LayoutComponent} from './components/layout/layout.component';
-import {NavItemComponent} from './components/nav-item/nav-item.component';
-import {SidenavComponent} from './components/sidenav/sidenav.component';
-import {ToolbarComponent} from './components/toolbar/toolbar.component';
-import {MaterialModule} from '../material';
-import {RouterModule} from '@angular/router';
+import { MaterialModule } from '../material';
+import { RouterModule } from '@angular/router';
+import { LayoutComponent } from './layout/layout.component';
+import { TopNavComponent } from './layout/top-nav/top-nav.component';
+import { SideNavComponent } from './layout/side-nav/side-nav.component';
+import { ApiValidationDirective } from './directives/api-validation.directive';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 export const COMPONENTS = [
-  LayoutComponent,
-  NavItemComponent,
-  SidenavComponent,
-  ToolbarComponent,
+    LayoutComponent,
+    TopNavComponent,
+    SideNavComponent,
+    ApiValidationDirective,
+    NotFoundComponent
 ];
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, RouterModule],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+    imports: [CommonModule, MaterialModule, RouterModule],
+    declarations: COMPONENTS,
+    exports: COMPONENTS,
 })
-export class CoreModule {}
+export class CoreModule {
+}

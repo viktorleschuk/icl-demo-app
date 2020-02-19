@@ -1,0 +1,84 @@
+<section id="sample-table" class="mat-elevation-z8 bg-white p1r">
+
+    <div fxLayout="row">
+        <div fxFlexFill fxLayoutAlign="space-between center">
+            <div class="mat-h1 mat-primary">Orders</div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <button mat-mini-fab (click)="createNewOrder()" color="primary" style="margin-right: 15px">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <mat-form-field>
+                    <input matInput [placeholder]="'Filter'" (keyup)="filterSubject.next($event.target.value)">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource" fxFill>
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Id</th>
+                <td mat-cell class="dc-content" *matCellDef="let element">{{element.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="client_name">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Client Name</th>
+                <td mat-cell class="dc-content" *matCellDef="let element">{{element.client_name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="client_phone">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Client Phone</th>
+                <td mat-cell class="dc-content" *matCellDef="let element"> {{ element.client_phone }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="client_address">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Client Address</th>
+                <td mat-cell class="dc-content" *matCellDef="let element">{{element.client_address}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="items_count">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Count</th>
+                <td mat-cell class="dc-content" *matCellDef="let element">{{element.items_count}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="total_sum">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Total</th>
+                <td mat-cell class="dc-content" *matCellDef="let element">{{element.total_sum | currency}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="noData">
+                <td mat-cell class="dc-label no-data-cell" *matCellDef="let element"
+                    [attr.colspan]="displayedColumns.length">
+                    <ng-container *ngIf="!(error$ | async) && !(loading$ | async)">
+                        <span class="dc-content">No Orders</span>
+                    </ng-container>
+                    <ng-container *ngIf="(error$ | async) && !(loading$ | async)">
+                        <span class="dc-label">System Failure</span>
+                        <span class="dc-content">Error</span>
+                        <span class="retry" (click)="retry()">Retry</span>
+                    </ng-container>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns, sticky: true"></tr>
+            <ng-container *ngIf="ordersTotal && !(loading$ | async)">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="customer-row" (click)="showOrder(row)"></tr>
+            </ng-container>
+            <ng-container *ngIf="!ordersTotal || (loading$ | async)">
+                <tr mat-row *matRowDef="let row; columns: ['noData'];" class="no-data-row"></tr>
+            </ng-container>
+        </table>
+
+        <mat-card *ngIf="(loading$ | async)"
+                  style="display: flex; justify-content: center; align-items: center">
+            <mat-progress-spinner
+                    color="primary"
+                    mode="indeterminate">
+            </mat-progress-spinner>
+        </mat-card>
+
+        <mat-paginator [length]="ordersTotal" [pageSize]="10"></mat-paginator>
+    </div>
+</section>

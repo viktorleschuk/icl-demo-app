@@ -1,15 +1,3 @@
-<app-layout>
-  <app-sidenav>
-    <app-nav-item routerLink="/orders" icon="book" hint="View your orders collection">
-      Orders
-    </app-nav-item>
-    <app-nav-item>
-      Sign In
-    </app-nav-item>
-  </app-sidenav>
-  <app-toolbar>
-    ICL-demo-app
-  </app-toolbar>
+<mat-progress-bar class="core-spinner" mode="indeterminate" color="accent" *ngIf="loading$ | async"></mat-progress-bar>
+<router-outlet></router-outlet>
 
-  <router-outlet></router-outlet>
-</app-layout>

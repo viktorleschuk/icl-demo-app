@@ -1,0 +1,11 @@
+.mat-dialog-container {
+  min-width: 50vw;
+
+  .toolbar {
+    background-color: #fff;
+
+    .mat-toolbar-row {
+      padding: 0;
+    }
+  }
+}

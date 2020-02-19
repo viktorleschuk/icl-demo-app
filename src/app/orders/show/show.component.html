@@ -1,0 +1,143 @@
+<section class="mat-elevation-z8 bg-white p1r">
+
+    <div class="mb20" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.gt-sm="1rem">
+        <mat-card fxFlex="30" fxFlex.lt-md="100" class="order-box info-box mat-elevation-z8">
+            <header class="accent" fxLayout="row" fxLayoutAlign="start center">
+                <div class="title">General Information</div>
+                <button mat-icon-button aria-label="Edit" (click)="edit()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </header>
+
+            <div class="content" *ngIf="!editMode">
+                <div class="info-line">
+                    <div class="title">Client name</div>
+                    <div class="info">{{ (order$ | async).client_name }}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Client phone</div>
+                    <div class="info">{{ (order$ | async).client_phone }}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Client address</div>
+                    <div class="info">{{ (order$ | async).client_address }}</div>
+                </div>
+
+<!--                <div class="info-line">-->
+<!--                    <div class="title">Total sum</div>-->
+<!--                    <div class="info">{{ (order$ | async).total_sum }}</div>-->
+<!--                </div>-->
+            </div>
+            <form *ngIf="editMode" [formGroup]="orderForm" class="content">
+
+                <div class="mb-12" fxLayout="column">
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <!--mat-icon class="mr-12 mt-12">account_circle</mat-icon-->
+                        <mat-form-field fxFlex>
+                            <input name="client_name" formControlName="client_name" placeholder="Client name" matInput
+                                   required>
+                        </mat-form-field>
+                    </div>
+                    <mat-error [apiValidation]="orderForm.get('client_name')"></mat-error>
+                </div>
+
+                <div class="mb-12" fxLayout="column">
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <!--mat-icon class="mr-12 mt-12">account_circle</mat-icon-->
+                        <mat-form-field fxFlex>
+                            <input name="client_phone" formControlName="client_phone" placeholder="Client phone"
+                                   matInput
+                                   required>
+                        </mat-form-field>
+                    </div>
+                    <mat-error [apiValidation]="orderForm.get('client_phone')"></mat-error>
+                </div>
+
+                <div class="mb-12" fxLayout="column">
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <!--mat-icon class="mr-12 mt-12">account_circle</mat-icon-->
+                        <mat-form-field fxFlex>
+                            <input name="client_address" formControlName="client_address" placeholder="Client Address"
+                                   matInput required>
+                        </mat-form-field>
+                    </div>
+                    <mat-error [apiValidation]="orderForm.get('client_address')"></mat-error>
+                </div>
+                <div class="mb-12" fxLayout="column">
+                    <div fxLayout="row" fxLayoutAlign="end center">
+                        <button mat-raised-button
+                                (click)="update()"
+                                class="save-button mat-accent"
+                                [disabled]="orderForm.invalid">
+                            Update
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </mat-card>
+        <mat-card fxFlex="70" fxFlex.lt-md="100" class="mat-elevation-z8">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <header class="accent">
+                    <div class="title">Products</div>
+                </header>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <button mat-icon-button aria-label="Add products" (click)="fileInput.click()">
+                        <mat-icon>add_box</mat-icon>
+                    </button>
+                    <input hidden (change)="importProducts($event)" #fileInput type="file" id="file">
+                    <mat-form-field>
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort fxFill>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
+                        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                    </ng-container>
+
+                    <!-- Progress Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+                        <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</th>
+                        <td mat-cell *matCellDef="let row"> {{row.quantity}} </td>
+                    </ng-container>
+
+                    <!-- Color Column -->
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>
+                        <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </tr>
+                </table>
+
+                <mat-card *ngIf="(loading$ | async)"
+                          style="display: flex; justify-content: center; align-items: center">
+                    <mat-progress-spinner
+                            color="primary"
+                            mode="indeterminate">
+                    </mat-progress-spinner>
+                </mat-card>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </mat-card>
+    </div>
+
+</section>

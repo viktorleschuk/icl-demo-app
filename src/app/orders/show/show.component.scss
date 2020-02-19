@@ -1,0 +1,59 @@
+//.mat-divider-horizontal {
+//  position: initial !important;
+//  left: initial !important;
+//  width: initial !important;
+//}
+//
+//.order-title {
+//  @extend .mat-caption;
+//}
+//
+//.order-value {
+//  font-size: 20px !important;
+//}
+
+header {
+  padding: 16px;
+
+  .title {
+    font-size: 20px;
+  }
+
+  .more {
+    cursor: pointer;
+  }
+}
+
+.order-box {
+  overflow: hidden;
+
+  .content {
+    padding: 16px;
+  }
+
+  footer {
+    padding: 8px;
+    border-top: 1px solid;
+  }
+
+  &.info-box {
+
+    .info-line {
+      margin-bottom: 24px;
+
+      .title {
+        font-size: 12px;
+        font-weight: 600;
+        padding-bottom: 4px;
+      }
+
+      .info {
+
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

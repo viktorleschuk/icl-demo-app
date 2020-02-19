@@ -1,0 +1,70 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="toolbar">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Create new order</span>
+            <button mat-button class="mat-icon-button"
+                    (click)="dialogRef.close()"
+                    aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="orderForm">
+
+            <div class="mb-12" fxLayout="column">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <!--mat-icon class="mr-12 mt-12">account_circle</mat-icon-->
+                    <mat-form-field fxFlex>
+                        <input name="client_name" formControlName="client_name" placeholder="Client name" matInput
+                               required>
+                    </mat-form-field>
+                </div>
+                <mat-error [apiValidation]="orderForm.get('client_name')"></mat-error>
+            </div>
+
+            <div class="mb-12" fxLayout="column">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <!--mat-icon class="mr-12 mt-12">account_circle</mat-icon-->
+                    <mat-form-field fxFlex>
+                        <input name="client_phone" formControlName="client_phone" placeholder="Client phone" matInput
+                               required>
+                    </mat-form-field>
+                </div>
+                <mat-error [apiValidation]="orderForm.get('client_phone')"></mat-error>
+            </div>
+
+            <div class="mb-12" fxLayout="column">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <!--mat-icon class="mr-12 mt-12">account_circle</mat-icon-->
+                    <mat-form-field fxFlex>
+                        <input name="client_address" formControlName="client_address" placeholder="Client Address"
+                               matInput required>
+                    </mat-form-field>
+                </div>
+                <mat-error [apiValidation]="orderForm.get('client_address')"></mat-error>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+        <button mat-raised-button
+                (click)="createOrder()"
+                class="save-button mat-accent"
+                [disabled]="orderForm.invalid">
+            <mat-progress-spinner
+                    *ngIf="loading; else createText"
+                    diameter="40"
+                    color="primary"
+                    mode="indeterminate">
+            </mat-progress-spinner>
+            <ng-template #createText>Create</ng-template>
+        </button>
+
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="login-page">
+    <div class="content px20">
+        <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="text-center">
+                <h2 class="app-name">Login</h2>
+            </div>
+            <div fxLayout="row">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100">
+                        <input
+                                type="text"
+                                matInput
+                                placeholder="Email"
+                                formControlName="email"
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="w-100">
+                        <input
+                                type="password"
+                                matInput
+                                placeholder="Password"
+                                formControlName="password"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" class="mb15">
+                <div fxFlexFill>
+                    <button *ngIf="error$ | async as errorMessage" mat-raised-button color="warn" class="w-100"
+                            (click)="$event.preventDefault(); $event.stopPropagation()">
+                        {{ errorMessage }}
+                    </button>
+                </div>
+            </div>
+            <div fxLayout="row">
+                <div fxFlexFill>
+                    <button type="submit" mat-raised-button color="primary" class="w-100" fxLayoutAlign="center center">
+                        <mat-progress-spinner
+                                *ngIf="(loading$ | async); else text"
+                                diameter="40"
+                                color="accent"
+                                mode="indeterminate">
+                        </mat-progress-spinner>
+                        <ng-template #text>Login</ng-template>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
