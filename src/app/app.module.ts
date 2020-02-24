@@ -28,8 +28,8 @@ export function logger(reducer) {
 }
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
-    // ? []
-    ? [logger]
+    ? []
+    // ? [logger]
     : [];
 
 @NgModule({
