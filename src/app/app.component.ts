@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
     constructor(private authService: AuthService,
                 private authDispatchers: AuthDispatchers,
                 private coreSelectors: CoreSelectors) {
-        this.loading$ = coreSelectors.loading$.pipe(tap(l => console.log(l)));
     }
 
     ngOnInit(): void {
