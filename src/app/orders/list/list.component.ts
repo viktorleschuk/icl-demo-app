@@ -8,7 +8,9 @@ import { OrderDispatchers, OrdersDispatchers, OrdersSelectors } from '../../stor
 import { MatDialog } from '@angular/material/dialog';
 import { OrderCreateModalComponent } from '../create/create-modal.component';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
     selector: 'app-orders-list',
     templateUrl: './list.component.html',
@@ -19,7 +21,7 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-    public displayedColumns: string[] = ['id', 'client_name', 'client_phone', 'client_address', 'items_count', 'total_sum'];
+    public displayedColumns: string[] = ['id', 'client_name', 'client_phone', 'client_address', 'items_count', 'total_sum', 'actions'];
     public dataSource: MatTableDataSource<Order>;
     public ordersTotal: number;
     public ordersTotal$: Observable<number>;
@@ -40,8 +42,12 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.ordersSelectors.orders$.subscribe(orders => this.initializeData(orders));
-        this.ordersSelectors.total$.subscribe(total => this.ordersTotal = total);
+        this.ordersSelectors.orders$
+            .pipe(untilDestroyed(this))
+            .subscribe(orders => this.initializeData(orders));
+        this.ordersSelectors.total$
+            .pipe(untilDestroyed(this))
+            .subscribe(total => this.ordersTotal = total);
         this.loading$ = this.ordersSelectors.loading$;
         this.error$ = this.ordersSelectors.error$;
     }
@@ -57,7 +63,9 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
             })
         );
 
-        merge(filter$, this.paginator.page).subscribe(() => this.loadOrders());
+        merge(filter$, this.paginator.page)
+            .pipe(untilDestroyed(this))
+            .subscribe(() => this.loadOrders());
     }
 
     private loadOrders(): void {

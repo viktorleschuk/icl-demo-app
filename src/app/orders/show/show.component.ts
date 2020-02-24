@@ -9,7 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 import * as OrderActions from '../../store/actions';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
     selector: 'app-orders-show',
     templateUrl: './show.component.html',
@@ -38,7 +40,9 @@ export class OrdersShowComponent implements OnInit {
         this.order$ = orderSelectors.order$;
         this.loading$ = orderSelectors.loading$;
         this.dataSource = new MatTableDataSource([]);
-        this.orderSelectors.orderProducts$.subscribe(
+        this.orderSelectors.orderProducts$
+            .pipe(untilDestroyed(this))
+            .subscribe(
             (products: Product[]) => {
                 this.dataSource = new MatTableDataSource(products);
                 this.dataSource.paginator = this.paginator;

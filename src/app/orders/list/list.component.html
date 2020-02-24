@@ -47,6 +47,15 @@
                 <td mat-cell class="dc-content" *matCellDef="let element">{{element.total_sum | currency}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell class="dc-label" *matHeaderCellDef>Actions</th>
+                <td mat-cell class="dc-content" *matCellDef="let element">
+                    <button mat-icon-button (click)="showOrder(element)" color="primary">
+                        <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
 
             <ng-container matColumnDef="noData">
                 <td mat-cell class="dc-label no-data-cell" *matCellDef="let element"

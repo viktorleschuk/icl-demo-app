@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
     constructor(private authService: AuthService,
                 private authDispatchers: AuthDispatchers,
                 private coreSelectors: CoreSelectors) {
+        this.loading$ = coreSelectors.loading$;
     }
 
     ngOnInit(): void {
